@@ -27,7 +27,7 @@ Separate the project into three phases, compressing each phase's results into ar
 └──────┬───────┘    └──────┬───────┘    └──────┬───────┘
        │                   │                   │
        ▼                   ▼                   ▼
-  research.md          plan.md              code
+   research.md          plan.md              code
   (~200 lines)        (~200 lines)
 ```
 
@@ -70,7 +70,7 @@ Separate one task into four specialized modules:
       └───────────────┴───────────────┴───────────────┘
                             │
                       Shared Memory
-                      (State storage/sharing)
+                 (State storage/sharing)
 ```
 
 **Role of Each Module**:
@@ -207,9 +207,9 @@ Here's my integration strategy based on reviewing both studies.
 ┌─────────────────────────────────────────────────────────────────┐
 │  ACE-FCA (Macro Level) - Project Flow Management                │
 │                                                                 │
-│  ┌───────────┐      ┌───────────┐      ┌───────────┐           │
-│  │  Research │ ──►  │   Plan    │ ──►  │ Implement │           │
-│  └─────┬─────┘      └─────┬─────┘      └─────┬─────┘           │
+│  ┌───────────┐      ┌───────────┐      ┌───────────┐            │
+│  │  Research │ ──►  │   Plan    │ ──►  │ Implement │            │
+│  └─────┬─────┘      └─────┬─────┘      └─────┬─────┘            │
 │        │                  │                  │                  │
 │        ▼                  ▼                  ▼                  │
 │   research.md         plan.md             code                  │
@@ -217,25 +217,25 @@ Here's my integration strategy based on reviewing both studies.
 ├─────────────────────────────────────────────────────────────────┤
 │  Inside Each Phase                                              │
 │                                                                 │
-│  Task 1 ─► Sub-agent ─► Return only results (discard context)  │
-│  Task 2 ─► Sub-agent ─► Return only results (discard context)  │
-│  Task 3 ─► Sub-agent ─► Return only results (discard context)  │
+│  Task 1 ─► Sub-agent ─► Return only results (discard context)   │
+│  Task 2 ─► Sub-agent ─► Return only results (discard context)   │
+│  Task 3 ─► Sub-agent ─► Return only results (discard context)   │
 │                                                                 │
 ├─────────────────────────────────────────────────────────────────┤
-│  Inside Sub-agent (Micro Level) - Choose based on conditions   │
+│  Inside Sub-agent (Micro Level) - Choose based on conditions    │
 │                                                                 │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │ Option A: Strong model + Easy problem                    │   │
-│  │                                                         │   │
-│  │   Claude/GPT-4 ──► Direct processing ──► Return result  │   │
-│  └─────────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ Option A: Strong model + Easy problem                   │    │
+│  │                                                         │    │
+│  │   Claude/GPT-4 ──► Direct processing ──► Return result  │    │
+│  └─────────────────────────────────────────────────────────┘    │
 │                                                                 │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │ Option B: Weak model or Difficult problem               │   │
-│  │                                                         │   │
-│  │   AgentFlow structure:                                  │   │
-│  │   Planner → Executor → Verifier → Generator             │   │
-│  └─────────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ Option B: Weak model or Difficult problem               │    │
+│  │                                                         │    │
+│  │   AgentFlow structure:                                  │    │
+│  │   Planner → Executor → Verifier → Generator             │    │
+│  └─────────────────────────────────────────────────────────┘    │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
