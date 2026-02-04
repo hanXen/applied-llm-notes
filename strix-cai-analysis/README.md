@@ -13,12 +13,12 @@
 
 ## Table of Contents
 
-1. Core Technique Comparison ([ko](ko/README.md) | en)
+1. Core Technique Comparison ([ko](ko/README.md) | [en](en/README.md))
    - Prompt Engineering
    - Multi-Agent Architecture
    - Tool Integration
    - Handoff Mechanisms
    - Memory & Learning
    - Safety & Cost Controls
-2. Strix Deep Analysis ([ko](ko/strix-deep-analysis.md) | en)
-3. CAI Deep Analysis ([ko](ko/cai-deep-analysis.md) | en)
+2. Strix Deep Analysis ([ko](ko/strix-deep-analysis.md) | [en](en/strix-deep-analysis.md))
+3. CAI Deep Analysis ([ko](ko/cai-deep-analysis.md) | [en](en/cai-deep-analysis.md))
