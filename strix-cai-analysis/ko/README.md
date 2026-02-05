@@ -101,11 +101,15 @@ Mako Template 기반으로 동적 생성되며, 핵심 지시는:
 
 **핵심 Insight**:
 
-1. **공격성 vs 방법론은 커버리지 도메인에 의해 결정된다.** Strix의 "GO SUPER HARD"는 웹 앱 CI/CD 자동화에서 비롯된다 — 사람이 없는 Pipeline에서 Agent가 일찍 포기하면 안 되므로, 과도할 정도로 지속성을 강제한다. CAI의 "safe, read-only first"는 Kill Chain 전체(정찰→C2)를 다루기 때문이다 — 다단계 작전에서 순서를 무시한 공격적 탐색은 오히려 비효율적이다.  
-**Trade-off: 공격적 톤은 웹 앱의 숨은 Edge Case를 발굴하는 데 유리하지만, 체계적 방법론은 Kill Chain처럼 순서가 중요한 작전에서 더 안정적이다.**
+1. **공격성 vs 방법론은 커버리지 도메인에 의해 결정된다.**
+- Strix의 "GO SUPER HARD"는 웹 앱 CI/CD 자동화에서 비롯된다 — 사람이 없는 Pipeline에서 Agent가 일찍 포기하면 안 되므로, 과도할 정도로 지속성을 강제한다.
+- CAI의 "safe, read-only first"는 Kill Chain 전체(정찰→C2)를 다루기 때문이다 — 다단계 작전에서 순서를 무시한 공격적 탐색은 오히려 비효율적이다.  
+- **Trade-off: 공격적 톤은 웹 앱의 숨은 Edge Case를 발굴하는 데 유리하지만, 체계적 방법론은 Kill Chain처럼 순서가 중요한 작전에서 더 안정적이다.**
 
-2. **정적 Skill vs 동적 메모리는 대상의 예측 가능성에 따른 선택이다.** Strix가 마크다운 Skill 파일을 쓰는 이유: 웹 취약점은 OWASP Top 10으로 잘 분류되어 있어, IDOR 213줄짜리 정형화된 Playbook이 경험적 학습보다 신뢰할 수 있다. CAI가 Vector DB 메모리를 쓰는 이유: 네트워크/IoT/포렌식까지 다루는 범위에서 정적 Playbook으로 모든 시나리오를 커버할 수 없으므로, 과거 경험에서 유사 사례를 검색하는 방식이 더 확장 가능하다.  
-**Trade-off: 정적 Skill은 처음 보는 타겟에도 일관된 품질을 보장하지만 업데이트가 수동이고, 동적 메모리는 반복 사용으로 개선되지만 첫 실행 품질이 낮다.**
+2. **정적 Skill vs 동적 메모리는 대상의 예측 가능성에 따른 선택이다.**
+- Strix가 마크다운 Skill 파일을 쓰는 이유: 웹 취약점은 OWASP Top 10으로 잘 분류되어 있어, IDOR 213줄짜리 정형화된 Playbook이 경험적 학습보다 신뢰할 수 있다.
+- CAI가 Vector DB 메모리를 쓰는 이유: 네트워크/IoT/포렌식까지 다루는 범위에서 정적 Playbook으로 모든 시나리오를 커버할 수 없으므로, 과거 경험에서 유사 사례를 검색하는 방식이 더 확장 가능하다.  
+- **Trade-off: 정적 Skill은 처음 보는 타겟에도 일관된 품질을 보장하지만 업데이트가 수동이고, 동적 메모리는 반복 사용으로 개선되지만 첫 실행 품질이 낮다.**
 
 ---
 
@@ -204,11 +208,18 @@ Sub-Agent가 각각 독립 Thread(daemon)로 실행된다. 10-20개 Sub-Agent가
 
 **핵심 Insight**:
 
-1. **역할 분할이 성능을 높인다.** IDOR을 찾는 Agent와 SQLi를 찾는 Agent는 서로 다른 전문 지식(Skill 파일)을 로드한다. 순수 LLM 한 Session에 모든 지식을 넣으면 Context가 희석된다.
+1. **역할 분할이 성능을 높인다.**
+- IDOR을 찾는 Agent와 SQLi를 찾는 Agent는 서로 다른 전문 지식(Skill 파일)을 로드한다. 순수 LLM 한 Session에 모든 지식을 넣으면 Context가 희석된다.
 
-2. **동적 생성 vs 사전 정의는 대상의 예측 가능성에 의한 선택이다.** Strix가 런타임에 Agent를 생성하는 이유: 웹 앱의 구조(엔드포인트, 인증 방식, 기술 스택)는 정찰 후에야 알 수 있으므로, 필요한 전문가를 미리 정의할 수 없다. CAI가 ~20개를 미리 정의하는 이유: Kill Chain Phase(정찰→익스플로잇→권한 상승→C2)는 타겟과 무관하게 일정하므로, 역할 분류가 사전에 가능하다. **Trade-off: 동적 생성은 타겟 맞춤형이지만 Agent Spawn 비용이 발생하고, 사전 정의는 즉시 투입 가능하지만 불필요한 Agent가 포함될 수 있다.**
+2. **동적 생성 vs 사전 정의는 대상의 예측 가능성에 의한 선택이다.**
+- Strix가 런타임에 Agent를 생성하는 이유: 웹 앱의 구조(엔드포인트, 인증 방식, 기술 스택)는 정찰 후에야 알 수 있으므로, 필요한 전문가를 미리 정의할 수 없다.
+- CAI가 ~20개를 미리 정의하는 이유: Kill Chain Phase(정찰→익스플로잇→권한 상승→C2)는 타겟과 무관하게 일정하므로, 역할 분류가 사전에 가능하다.
+- **Trade-off: 동적 생성은 타겟 맞춤형이지만 Agent Spawn 비용이 발생하고, 사전 정의는 즉시 투입 가능하지만 불필요한 Agent가 포함될 수 있다.**
 
-3. **"반복당 1도구" vs "턴당 N도구"는 추론 Pattern의 차이다.** Strix의 1도구 방식은 매 결과를 분석한 후 다음 행동을 결정하는 deliberate reasoning을 강제한다 — 웹 앱에서 한 응답이 다음 프로브를 결정하므로 적합하다. CAI의 N도구 병렬은 독립적인 정찰 명령(포트 스캔, 서비스 열거 등)을 Batch 처리한다 — 네트워크 정찰에서 프로브 간 의존성이 낮으므로 적합하다. **Trade-off: 1도구 방식은 적응적이지만 느리고, N도구 병렬은 빠르지만 중간 결과에 의한 방향 전환이 어렵다.**
+3. **"반복당 1도구" vs "턴당 N도구"는 추론 Pattern의 차이다.**
+- Strix의 1도구 방식은 매 결과를 분석한 후 다음 행동을 결정하는 deliberate reasoning을 강제한다 — 웹 앱에서 한 응답이 다음 프로브를 결정하므로 적합하다.
+- CAI의 N도구 병렬은 독립적인 정찰 명령(포트 스캔, 서비스 열거 등)을 Batch 처리한다 — 네트워크 정찰에서 프로브 간 의존성이 낮으므로 적합하다.
+- **Trade-off: 1도구 방식은 적응적이지만 느리고, N도구 병렬은 빠르지만 중간 결과에 의한 방향 전환이 어렵다.**
 
 ---
 
@@ -293,11 +304,14 @@ Sub-Agent가 각각 독립 Thread(daemon)로 실행된다. 10-20개 Sub-Agent가
 
 **핵심 Insight**:
 
-1. **PoC 실행이 false positive을 줄인다.** "SQLi 가능성 있음"이 아니라 sqlmap으로 실제 추출한 데이터를 보여준다. 순수 LLM은 추측만 할 수 있다.
+1. **PoC 실행이 false positive을 줄인다.**
+- "SQLi 가능성 있음"이 아니라 sqlmap으로 실제 추출한 데이터를 보여준다. 순수 LLM은 추측만 할 수 있다.
 
-2. **도구 Schema가 LLM의 환각을 제어한다.** XML이든 JSON이든, 구조화된 Schema는 LLM이 "올바른 형식의 도구 호출"만 하도록 강제한다. 순수 LLM은 자유 텍스트로 "이렇게 하면 됩니다"라고 설명만 한다.
+2. **도구 Schema가 LLM의 환각을 제어한다.**
+- XML이든 JSON이든, 구조화된 Schema는 LLM이 "올바른 형식의 도구 호출"만 하도록 강제한다. 순수 LLM은 자유 텍스트로 "이렇게 하면 됩니다"라고 설명만 한다.
 
-3. **도구 범위가 커버리지를 결정한다.** Strix는 Playwright/Proxy로 웹 앱 깊이를 확보하고, CAI는 Kill Chain 전체(정찰~C2)를 도구화해 넓이를 확보한다.
+3. **도구 범위가 커버리지를 결정한다.**
+- Strix는 Playwright/Proxy로 웹 앱 깊이를 확보하고, CAI는 Kill Chain 전체(정찰~C2)를 도구화해 넓이를 확보한다.
 
 ---
 
@@ -366,11 +380,14 @@ thought_agent.handoffs.append(redteam_handoff)     # Thought → Red
 
 **핵심 Insight**:
 
-1. **Handoff = 구조화된 정보 전달.** 순수 LLM 대화에서는 "아까 nmap 결과에서..."라고 참조하면 정확도가 떨어진다. Strix는 XML Report로, CAI는 전체 History 전달로 정보 손실을 방지한다.
+1. **Handoff = 구조화된 정보 전달.**
+- 순수 LLM 대화에서는 "아까 nmap 결과에서..."라고 참조하면 정확도가 떨어진다. Strix는 XML Report로, CAI는 전체 History 전달로 정보 손실을 방지한다.
 
-2. **트리 vs 그래프는 다른 문제를 풀다.** Strix의 트리 구조는 "하나의 웹 앱을 여러 각도로 동시 공격"에 최적화되어 있고, CAI의 그래프 구조는 "Kill Chain 단계 간 유기적 전환"에 최적화되어 있다.
+2. **트리 vs 그래프는 다른 문제를 풀다.** 
+- Strix의 트리 구조는 "하나의 웹 앱을 여러 각도로 동시 공격"에 최적화되어 있고, CAI의 그래프 구조는 "Kill Chain 단계 간 유기적 전환"에 최적화되어 있다.
 
-3. **Context 전달 방식이 비용을 결정한다.** Strix의 "선택적 상속"은 필요한 정보만 전달해 Token을 절약하고, CAI의 "전체 History 공유"는 정보 손실 없이 전달하지만 Token이 누적된다.
+3. **Context 전달 방식이 비용을 결정한다.** 
+- Strix의 "선택적 상속"은 필요한 정보만 전달해 Token을 절약하고, CAI의 "전체 History 공유"는 정보 손실 없이 전달하지만 Token이 누적된다.
 
 ---
 
@@ -419,11 +436,16 @@ thought_agent.handoffs.append(redteam_handoff)     # Thought → Red
 
 **핵심 Insight**:
 
-1. **"보안 인식" 압축이 핵심이다.** 일반적인 대화 요약은 모든 내용을 균등하게 압축하지만, Strix는 취약점/자격증명을 우선 보존한다. 이것이 단순 truncation과의 차이다.
+1. **"보안 인식" 압축이 핵심이다.**
+- 일반적인 대화 요약은 모든 내용을 균등하게 압축하지만, Strix는 취약점/자격증명을 우선 보존한다. 이것이 단순 truncation과의 차이다.
 
-2. **Session 간 학습은 반복 테스트에서 가치가 크다.** 같은 타겟을 주기적으로 스캔할 때, CAI는 "지난번에 이 포트에서 이 취약점을 찾았다"를 기억한다. Strix는 매번 처음부터 시작한다.
+2. **Session 간 학습은 반복 테스트에서 가치가 크다.**
+- 같은 타겟을 주기적으로 스캔할 때, CAI는 "지난번에 이 포트에서 이 취약점을 찾았다"를 기억한다.
+- Strix는 매번 처음부터 시작한다.
 
-3. **중복 제거는 Report 품질을 결정한다.** Strix의 LLM 기반 중복 검사는 "같은 SQLi를 다른 파라미터에서 발견"한 경우를 구분한다. CAI에는 이 기능이 없어 수동 정리가 필요하다.
+3. **중복 제거는 Report 품질을 결정한다.** 
+- Strix의 LLM 기반 중복 검사는 "같은 SQLi를 다른 파라미터에서 발견"한 경우를 구분한다. 
+- CAI에는 이 기능이 없어 수동 정리가 필요하다.
 
 ---
 
@@ -490,11 +512,17 @@ thought_agent.handoffs.append(redteam_handoff)     # Thought → Red
 
 **핵심 Insight**:
 
-1. **Guardrail vs 공격 효과는 Trade-off다.** CAI의 Guardrail은 Prompt Injection을 방어하지만, 정상적인 공격 Payload도 차단할 수 있다. Strix는 Guardrail 없이 공격 효과를 극대화하지만, 타겟의 악의적 응답에 취약하다.
+1. **Guardrail vs 공격 효과는 Trade-off다.** 
+- CAI의 Guardrail은 Prompt Injection을 방어하지만, 정상적인 공격 Payload도 차단할 수 있다.
+- Strix는 Guardrail 없이 공격 효과를 극대화하지만, 타겟의 악의적 응답에 취약하다.
 
-2. **PoC 검증이 false positive을 줄이는 효과적인 방법이다.** Strix의 Validation Agent는 발견된 취약점을 실제 실행해서 확인한다. CAI에는 이 자동 검증 Loop가 없다.
+2. **PoC 검증이 false positive을 줄이는 효과적인 방법이다.**
+- Strix의 Validation Agent는 발견된 취약점을 실제 실행해서 확인한다.
+- CAI에는 이 자동 검증 Loop가 없다.
 
-3. **비용 제어는 프로덕션 환경에서 필수다.** Strix는 Sub-Agent가 무한히 생성될 수 있고 비용 한도가 없다. CAI의 `CAI_PRICE_LIMIT`은 실수로 인한 비용 폭주를 방지한다.
+3. **비용 제어는 프로덕션 환경에서 필수다.** 
+- Strix는 Sub-Agent가 무한히 생성될 수 있고 비용 한도가 없다.
+- CAI의 `CAI_PRICE_LIMIT`은 실수로 인한 비용 폭주를 방지한다.
 
 ---
 

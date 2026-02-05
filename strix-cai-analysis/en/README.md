@@ -101,11 +101,15 @@ Master Template (Mako, 190 lines)
 
 **Key Insights**:
 
-1. **Aggressiveness vs methodology is determined by the coverage domain.** Strix's "GO SUPER HARD" stems from web app CI/CD automation — in a pipeline with no human present, the agent must not give up early, so persistence is enforced to an extreme degree. CAI's "safe, read-only first" exists because it covers the entire Kill Chain (Recon → C2) — aggressive unordered exploration is actually inefficient in multi-stage operations.
-**Trade-off: Aggressive tone is advantageous for uncovering hidden edge cases in web apps, but systematic methodology is more stable for operations where sequence matters, like Kill Chains.**
+1. **Aggressiveness vs methodology is determined by the coverage domain.**
+- Strix's "GO SUPER HARD" stems from web app CI/CD automation — in a pipeline with no human present, the agent must not give up early, so persistence is enforced to an extreme degree.
+- CAI's "safe, read-only first" exists because it covers the entire Kill Chain (Recon → C2) — aggressive unordered exploration is actually inefficient in multi-stage operations.
+- **Trade-off: Aggressive tone is advantageous for uncovering hidden edge cases in web apps, but systematic methodology is more stable for operations where sequence matters, like Kill Chains.**
 
-2. **Static Skills vs dynamic memory is a choice based on target predictability.** Why Strix uses markdown Skill files: web vulnerabilities are well-classified by OWASP Top 10, so a structured 213-line IDOR Playbook is more reliable than experiential learning. Why CAI uses Vector DB memory: across a scope covering network/IoT/forensics, static Playbooks cannot cover all scenarios, so searching similar cases from past experience is more scalable.
-**Trade-off: Static Skills guarantee consistent quality even on first-seen targets but require manual updates, while dynamic memory improves with repeated use but has lower first-run quality.**
+2. **Static Skills vs dynamic memory is a choice based on target predictability.**
+- Why Strix uses markdown Skill files: web vulnerabilities are well-classified by OWASP Top 10, so a structured 213-line IDOR Playbook is more reliable than experiential learning.
+- Why CAI uses Vector DB memory: across a scope covering network/IoT/forensics, static Playbooks cannot cover all scenarios, so searching similar cases from past experience is more scalable.
+- **Trade-off: Static Skills guarantee consistent quality even on first-seen targets but require manual updates, while dynamic memory improves with repeated use but has lower first-run quality.**
 
 ---
 
@@ -204,11 +208,18 @@ A single active agent transitions sequentially, with the full history accumulati
 
 **Key Insights**:
 
-1. **Role separation improves performance.** The IDOR-finding agent and the SQLi-finding agent load different specialized knowledge (Skill files). Putting all knowledge into a single vanilla LLM session dilutes the context.
+1. **Role separation improves performance.**
+- The IDOR-finding agent and the SQLi-finding agent load different specialized knowledge (Skill files). Putting all knowledge into a single vanilla LLM session dilutes the context.
 
-2. **Dynamic creation vs pre-definition is a choice based on target predictability.** Why Strix creates agents at runtime: a web app's structure (endpoints, auth methods, tech stack) is only known after reconnaissance, so the needed specialists cannot be pre-defined. Why CAI pre-defines ~20: Kill Chain phases (Recon → Exploit → Privilege Escalation → C2) are consistent regardless of target, making role classification possible in advance. **Trade-off: Dynamic creation is target-tailored but incurs agent spawn costs, while pre-definition enables immediate deployment but may include unnecessary agents.**
+2. **Dynamic creation vs pre-definition is a choice based on target predictability.**
+- Why Strix creates agents at runtime: a web app's structure (endpoints, auth methods, tech stack) is only known after reconnaissance, so the needed specialists cannot be pre-defined.
+- Why CAI pre-defines ~20: Kill Chain phases (Recon → Exploit → Privilege Escalation → C2) are consistent regardless of target, making role classification possible in advance.
+- **Trade-off: Dynamic creation is target-tailored but incurs agent spawn costs, while pre-definition enables immediate deployment but may include unnecessary agents.**
 
-3. **"1 tool per iteration" vs "N tools per turn" reflects different reasoning patterns.** Strix's 1-tool approach forces deliberate reasoning where each result is analyzed before deciding the next action — suitable for web apps where one response determines the next probe. CAI's N-tool parallel approach batch-processes independent reconnaissance commands (port scanning, service enumeration, etc.) — suitable for network reconnaissance where inter-probe dependencies are low. **Trade-off: The 1-tool approach is adaptive but slow, while N-tool parallel is fast but makes mid-course corrections based on intermediate results difficult.**
+3. **"1 tool per iteration" vs "N tools per turn" reflects different reasoning patterns.**
+- Strix's 1-tool approach forces deliberate reasoning where each result is analyzed before deciding the next action — suitable for web apps where one response determines the next probe.
+- CAI's N-tool parallel approach batch-processes independent reconnaissance commands (port scanning, service enumeration, etc.) — suitable for network reconnaissance where inter-probe dependencies are low.
+- **Trade-off: The 1-tool approach is adaptive but slow, while N-tool parallel is fast but makes mid-course corrections based on intermediate results difficult.**
 
 ---
 
@@ -293,11 +304,14 @@ A single active agent transitions sequentially, with the full history accumulati
 
 **Key Insights**:
 
-1. **PoC execution reduces false positives.** Instead of "possible SQLi", it shows data actually extracted with sqlmap. Vanilla LLMs can only speculate.
+1. **PoC execution reduces false positives.**
+- Instead of "possible SQLi", it shows data actually extracted with sqlmap. Vanilla LLMs can only speculate.
 
-2. **Tool Schema controls LLM hallucination.** Whether XML or JSON, a structured Schema forces the LLM to make only "correctly formatted tool calls." Vanilla LLMs just explain in free text "you could do this."
+2. **Tool Schema controls LLM hallucination.**
+- Whether XML or JSON, a structured Schema forces the LLM to make only "correctly formatted tool calls." Vanilla LLMs just explain in free text "you could do this."
 
-3. **Tool scope determines coverage.** Strix secures web app depth with Playwright/Proxy, while CAI secures breadth across the entire Kill Chain (Recon → C2) with its tooling.
+3. **Tool scope determines coverage.**
+- Strix secures web app depth with Playwright/Proxy, while CAI secures breadth across the entire Kill Chain (Recon → C2) with its tooling.
 
 ---
 
@@ -366,11 +380,14 @@ thought_agent.handoffs.append(redteam_handoff)     # Thought → Red
 
 **Key Insights**:
 
-1. **Handoff = structured information transfer.** In vanilla LLM conversations, referencing "from the earlier nmap results..." loses accuracy. Strix prevents information loss via XML Reports, CAI via full history transfer.
+1. **Handoff = structured information transfer.**
+- In vanilla LLM conversations, referencing "from the earlier nmap results..." loses accuracy. Strix prevents information loss via XML Reports, CAI via full history transfer.
 
-2. **Tree vs graph solves different problems.** Strix's tree structure is optimized for "attacking a single web app from multiple angles simultaneously," while CAI's graph structure is optimized for "organic transitions between Kill Chain stages."
+2. **Tree vs graph solves different problems.**
+- Strix's tree structure is optimized for "attacking a single web app from multiple angles simultaneously," while CAI's graph structure is optimized for "organic transitions between Kill Chain stages."
 
-3. **Context transfer method determines cost.** Strix's "selective inheritance" saves tokens by passing only needed information, while CAI's "full history sharing" transfers without information loss but accumulates tokens.
+3. **Context transfer method determines cost.**
+- Strix's "selective inheritance" saves tokens by passing only needed information, while CAI's "full history sharing" transfers without information loss but accumulates tokens.
 
 ---
 
@@ -419,11 +436,16 @@ thought_agent.handoffs.append(redteam_handoff)     # Thought → Red
 
 **Key Insights**:
 
-1. **"Security-aware" compression is key.** General conversation summarization compresses all content equally, but Strix prioritizes preserving vulnerabilities/credentials. This is the difference from simple truncation.
+1. **"Security-aware" compression is key.**
+- General conversation summarization compresses all content equally, but Strix prioritizes preserving vulnerabilities/credentials. This is the difference from simple truncation.
 
-2. **Cross-session learning has great value in repeated testing.** When periodically scanning the same target, CAI remembers "last time we found this vulnerability on this port." Strix starts from scratch every time.
+2. **Cross-session learning has great value in repeated testing.**
+- When periodically scanning the same target, CAI remembers "last time we found this vulnerability on this port."
+- Strix starts from scratch every time.
 
-3. **Deduplication determines report quality.** Strix's LLM-based deduplication check distinguishes "same SQLi found on different parameters." CAI lacks this feature and requires manual cleanup.
+3. **Deduplication determines report quality.**
+- Strix's LLM-based deduplication check distinguishes "same SQLi found on different parameters."
+- CAI lacks this feature and requires manual cleanup.
 
 ---
 
@@ -490,11 +512,17 @@ thought_agent.handoffs.append(redteam_handoff)     # Thought → Red
 
 **Key Insights**:
 
-1. **Guardrail vs attack effectiveness is a trade-off.** CAI's guardrails defend against Prompt Injection, but may also block legitimate attack payloads. Strix maximizes attack effectiveness without guardrails, but is vulnerable to malicious responses from targets.
+1. **Guardrail vs attack effectiveness is a trade-off.**
+- CAI's guardrails defend against Prompt Injection, but may also block legitimate attack payloads.
+- Strix maximizes attack effectiveness without guardrails, but is vulnerable to malicious responses from targets.
 
-2. **PoC verification is an effective method for reducing false positives.** Strix's Validation Agent actually executes discovered vulnerabilities to confirm them. CAI lacks this automatic verification loop.
+2. **PoC verification is an effective method for reducing false positives.**
+- Strix's Validation Agent actually executes discovered vulnerabilities to confirm them.
+- CAI lacks this automatic verification loop.
 
-3. **Cost control is essential in production environments.** Strix can spawn Sub-Agents indefinitely with no cost limit. CAI's `CAI_PRICE_LIMIT` prevents accidental cost runaway.
+3. **Cost control is essential in production environments.**
+- Strix can spawn Sub-Agents indefinitely with no cost limit.
+- CAI's `CAI_PRICE_LIMIT` prevents accidental cost runaway.
 
 ---
 
