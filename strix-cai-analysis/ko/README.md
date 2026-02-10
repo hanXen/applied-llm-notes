@@ -183,7 +183,7 @@ while current_turn < max_turns:
 
 **Strix** — 넓은 병렬:
 
-Sub-Agent가 각각 독립 Thread(daemon)로 실행된다. 10-20개 Sub-Agent가 각각 407줄 시스템 Prompt + 5개 Skill을 독립 로드하므로 Prompt 중복 비용이 발생한다. `cache_control` 기반 Prompt Caching으로 반복 비용을 완화한다 — [`llm.py:103-108`](https://github.com/usestrix/strix/blob/5a76fab/strix/llm/llm.py#L103-L108).
+Sub-Agent가 각각 독립 Thread(daemon)로 실행된다. 10-20개 Sub-Agent가 각각 407줄 시스템 Prompt + 5개 Skill을 독립 로드하므로 Prompt 중복 비용이 발생한다. `cache_control` 기반 Prompt Caching으로 반복 비용을 완화한다 — [`llm.py:309-325`](https://github.com/usestrix/strix/blob/5a76fab/strix/llm/llm.py#L309-L325).
 
 **CAI** — 깊은 순차:
 

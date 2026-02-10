@@ -183,7 +183,7 @@ while current_turn < max_turns:
 
 **Strix** — Wide parallelism:
 
-Sub-Agents each run as independent threads (daemon). With 10-20 Sub-Agents each independently loading a 407-line system prompt + 5 Skills, prompt duplication costs arise. `cache_control`-based Prompt Caching mitigates repetition costs — [`llm.py:103-108`](https://github.com/usestrix/strix/blob/5a76fab/strix/llm/llm.py#L103-L108).
+Sub-Agents each run as independent threads (daemon). With 10-20 Sub-Agents each independently loading a 407-line system prompt + 5 Skills, prompt duplication costs arise. `cache_control`-based Prompt Caching mitigates repetition costs — [`llm.py:309-325`](https://github.com/usestrix/strix/blob/5a76fab/strix/llm/llm.py#L309-L325).
 
 **CAI** — Deep sequential:
 
