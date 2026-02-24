@@ -2,6 +2,8 @@
 
 > The cost of Tool Calling lies in "where the result goes"
 
+*📝 2026-02-24*
+
 ---
 
 ## 1. Background: The Evolution of Tool Calling
@@ -74,7 +76,7 @@ But this raises a question:
 
 > "For complex tools, traditional tool calling only needs to pass arguments, whereas PTC has to generate invocation code every time — isn't that less reliable?"
 
-This concern is valid. And to resolve it, you need to understand precisely **where the tool result goes**.
+This concern seems valid. And to resolve it, you need to understand precisely **where the tool result goes**.
 
 ---
 
@@ -193,7 +195,7 @@ Another reasonable question arises here:
 
 > "If you design the tool to return only filtered results from the start, can't you get the same effect without PTC?"
 
-Yes. Carefully designing tool responses can reduce the context burden even with the traditional approach. But there are practical limitations:
+That's a fair point. Carefully designing tool responses can reduce the context burden even with the traditional approach. But there are practical limitations:
 
 ### 5.1 Tools Are Designed to Be General-Purpose
 
@@ -287,7 +289,7 @@ Data flow (variable storage, reuse):
   CodeAct: Stored in variables, only code execution result is passed
 ```
 
-**Ultimately, what control and data flow does is reduce the information entering the LLM's context.** However, in early 2024, the "context engineering" perspective was not as widespread as it is today, which is why the word "context" is hard to find in the paper. The concept existed, but it didn't yet have a name.
+**Ultimately, what control and data flow does is reduce the information entering the LLM's context.** However, in early 2024, the "context engineering" perspective was not as widespread as it is today, which is why the word "context" is hard to find in the paper. The concept existed, but there wasn't yet an umbrella term for it.
 
 ---
 

@@ -2,6 +2,8 @@
 
 > Tool Calling의 비용은 "결과가 어디로 가느냐"에 있다
 
+*📝 2026-02-24*
+
 ---
 
 ## 1. 배경: Tool Calling의 발전
@@ -74,7 +76,7 @@ PTC의 장점으로 흔히 언급되는 것들이 있다:
 
 > "복잡한 tool의 경우, 기존 tool calling은 인자만 넘기면 되는데, PTC는 매번 호출 코드를 생성해야 하지 않나? 안정성도 떨어지지 않나?"
 
-이 의문은 타당하다. 그리고 이 의문을 해소하려면 **tool result가 어디로 가는지**를 정확히 이해해야 한다.
+이 의문은 타당해보인다. 그리고 이 의문을 해소하려면 **tool result가 어디로 가는지**를 정확히 이해해야 한다.
 
 ---
 
@@ -97,7 +99,7 @@ PTC:   LLM → result = await query_db("SELECT ...") → 서버 실행 → 결�
 |---|---|---|
 | **tool result를 받는 주체** | LLM (추론 엔진) | Python runtime (container) |
 | **LLM이 보는 것** | raw 결과 전체 | 코드 실행 결과(stdout/stderr)만 |
-| **결과의 처리** | LLM이 토큰 단위로 읽고 추론 | Python이 변수로 처리 |
+| **결과 처리** | LLM이 토큰 단위로 읽고 추론 | Python이 변수로 처리 |
 
 이것을 그림으로 표현하면:
 
@@ -193,7 +195,7 @@ DB에서 10,000행을 반환하는 tool을 3개 지역에 대해 호출하는 �
 
 > "tool이 처음부터 필터링된 결과만 반환하도록 설계하면, PTC 없이도 같은 효과 아닌가?"
 
-맞다. tool의 response를 정교하게 설계하면 기존 방식으로도 context 부담을 줄일 수 있다. 하지만 현실적 한계가 있다:
+맞는 말이다. tool의 response를 정교하게 설계하면 기존 방식으로도 context 부담을 줄일 수 있다. 하지만 현실적 한계가 있다:
 
 ### 5.1 Tool은 범용적으로 설계된다
 
@@ -287,7 +289,7 @@ data flow (변수 저장, 재사용):
   CodeAct: 변수에 저장, 코드 실행 결과만 전달
 ```
 
-**결국 control and data flow가 하는 일은 LLM context에 들어가는 정보를 줄이는 것이다.**  다만 2024년 초에는 "context engineering"이라는 관점이 지금처럼 보편화되지 않았기 때문에, 논문에서 context라는 단어를 찾기 어렵다. 개념은 있었지만 그것을 부르는 이름이 아직 없었던 시기였다.
+**결국 control and data flow가 하는 일은 LLM context에 들어가는 정보를 줄이는 것이다.**  다만 2024년 초에는 "context engineering"이라는 관점이 지금처럼 보편화되지 않았기 때문에, 논문에서 context라는 단어를 찾기 어렵다. 개념은 있었지만 이를 아우르는 용어가 아직 없었던 시기였다.
 
 ---
 
@@ -312,7 +314,7 @@ data flow (변수 저장, 재사용):
 | **즉각적 사용자 피드백 필요** | PTC는 코드 완료 후에야 응답 |
 | **코드 생성 능력이 낮은 모델** | 코드 품질이 안정성에 직결됨 |
 
-참고로, 현재 대부분의 open/closed 모델은 각 provider의 tool calling 포맷에 맞게 fine-tune되어 있다. 앞으로 PTC 방식에 최적화된 모델이 등장할 가능성은 있지만, 현 시점에서는 이 점도 선택 시 고려할 부분이다. 특히 파라미터가 작은 모델의 경우, PTC 방식이 기존 tool calling에 비해 안정성이 떨어질 수 있다.
+참고로, 현재 대부분의 open/closed 모델은 각 provider의 tool calling 포맷에 맞게 fine-tune되어 있다. 앞으로 PTC 방식에 최적화된 모델이 등장할 가능성은 있지만, 현 시점에서는 이 점도 선택 시 고려해야 할 부분이다. 특히 파라미터가 작은 모델의 경우, PTC 방식이 기존 tool calling에 비해 안정성이 떨어질 수 있다.
 
 ### 7.3 안정성에 대한 고려
 
@@ -340,9 +342,9 @@ CodeAct/PTC:  [Tool result 전체]   → Bottleneck → 코드 실행 결과 (�
 
 | | ACE-FCA | CodeAct/PTC |
 |---|---|---|
-| **무엇을 압축** | Phase의 전체 context | Tool result |
-| **어디서 압축** | Sub-agent → artifact | Python runtime → 코드 실행 결과 |
-| **누가 받음** | 다음 Phase의 LLM | 같은 턴의 LLM |
+| **무엇을 압축하는가** | Phase의 전체 context | Tool result |
+| **어디서 압축하는가** | Sub-agent → artifact | Python runtime → 코드 실행 결과 |
+| **누가 받는가** | 다음 Phase의 LLM | 같은 턴의 LLM |
 | **레벨** | Macro (프로젝트) | Micro (단일 턴) |
 
 이 접근법들을 관통하는 인사이트는 다음과 같다:
