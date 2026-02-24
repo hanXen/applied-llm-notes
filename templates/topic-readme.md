@@ -7,6 +7,7 @@
 
 ## TL;DR
 
+- **What this covers**: What is the source material and scope of this document
 - **Point 1**: Brief description
 - **Point 2**: Brief description
 - **Key insight**: One sentence summary
