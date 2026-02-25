@@ -1,0 +1,8 @@
+{
+  // Line length - disabled (Korean content is naturally long)
+  "MD013": false,
+  // Table column style - allow compact tables
+  "MD060": false,
+  // Emphasis as heading - allow bold standalone lines for key summary statements
+  "MD036": false
+}
